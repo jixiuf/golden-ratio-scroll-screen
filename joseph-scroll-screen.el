@@ -114,7 +114,7 @@
       (delete-overlay ov))))
 
 ;;{{{ scroll up down 
-
+;;;###autoload'
 (defun joseph-scroll-half-screen-down()
   "scroll half screen down"
   (interactive)
