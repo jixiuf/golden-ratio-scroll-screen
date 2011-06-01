@@ -1,4 +1,4 @@
-;;;; joseph-scroll-screen.el Scroll half screen down or up, and highlight current line.
+;;; joseph-scroll-screen.el Scroll half screen down or up, and highlight current line.
 
 ;; Filename: joseph-scroll-screen.el
 ;; Description: Scroll half screen down or up, and highlight current line
@@ -8,7 +8,7 @@
 ;; Created: 2011-03-01
 ;; Version: 0.1.0
 ;; URL: http://www.emacswiki.org/joseph-scroll-screen.el
-;; Keywords: scroll screen 
+;; Keywords: scroll screen
 ;; Compatibility: (Test on GNU Emacs 23.2.1).
 ;;
 ;;; This file is NOT part of GNU Emacs
@@ -76,7 +76,7 @@
 ;;    default = 0.3
 
 ;;}}}
-;;; Codes 
+;;; Codes
 (defcustom joseph-scroll-screen-line-num 5
   "after scroll ,point will be keeped on this line of screen"
   :group 'scroll-screen
@@ -99,7 +99,7 @@
   "Font Lock mode face used to highlight tags.
   (borrowed from etags-select.el)"
   :group 'scroll-screen)
-        
+
 (defun joseph-scroll-highlight (beg end)
   "Highlight a region temporarily.
    (borrowed from etags-select.el)"
