@@ -72,6 +72,12 @@
 ;;
 ;; Below are customizable option list:
 ;;
+;;  `joseph-scroll-half-screen-up-hook'
+;;
+;;    default = nil
+;;  `joseph-scroll-half-screen-down-hook'
+;;
+;;    default = nil
 ;;  `joseph-scroll-screen-line-num'
 ;;    after scroll ,point will be keeped on this line of screen
 ;;    default = 5
@@ -81,6 +87,12 @@
 
 ;;}}}
 ;;; Codes
+(defcustom  joseph-scroll-half-screen-up-hook nil
+  ""
+  :type 'hook)
+(defcustom  joseph-scroll-half-screen-down-hook nil
+  ""
+  :type 'hook)
 (defcustom joseph-scroll-screen-line-num 5
   "after scroll ,point will be keeped on this line of screen"
   :group 'scroll-screen
@@ -118,7 +130,6 @@
       (delete-overlay ov))))
 
 (defvar joseph-scroll-screen-previous-point nil)
-
 ;;{{{ scroll up down
 ;;;###autoload'
 (defun joseph-scroll-half-screen-down()
@@ -126,25 +137,34 @@
   (interactive)
   (let ((old-position joseph-scroll-screen-previous-point))
     (setq joseph-scroll-screen-previous-point (point-marker))
-    (if (equal last-command 'joseph-scroll-half-screen-up)
+    (if (and (not (equal (marker-position old-position) (point)))
+             (equal last-command 'joseph-scroll-half-screen-up))
         (goto-char (marker-position old-position))
       (forward-line  (round (/ (frame-height) 1.5) ))
       )
+    (when (and (member  major-mode '(dired-mode wdired-mode))
+               (equal  (point-max) (point)) )
+      (dired-previous-line 1)
+      )
     (recenter joseph-scroll-screen-line-num);;keep point on this line.
-    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
-    ))
+    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
+  (run-hooks 'joseph-scroll-half-screen-down-hook))
 
 (defun joseph-scroll-half-screen-up()
   "scroll half screen up"
   (interactive)
   (let ((old-position joseph-scroll-screen-previous-point))
     (setq joseph-scroll-screen-previous-point (point-marker))
-    (if (equal last-command 'joseph-scroll-half-screen-down)
+    (if (and (not (equal (marker-position old-position) (point)))
+             (equal last-command 'joseph-scroll-half-screen-down))
         (goto-char (marker-position old-position))
       (forward-line (- 0 (round (/(frame-height) 1.5)))))
+    (when (and (member  major-mode '(dired-mode wdired-mode))
+               (equal  (point-min) (point)))
+      (dired-next-line 2))
     (recenter joseph-scroll-screen-line-num)
-    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
-    ))
+    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
+  (run-hooks 'joseph-scroll-half-screen-up-hook))
 
 ;;}}}
 
