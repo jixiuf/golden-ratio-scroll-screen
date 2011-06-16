@@ -6,7 +6,7 @@
 ;; Maintainer: Joseph <jixiuf@gmail.com>
 ;; Copyright (C) 2011~, Joseph, all rights reserved.
 ;; Created: 2011-03-01
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; URL: http://www.emacswiki.org/joseph-scroll-screen.el
 ;; Keywords: scroll screen
 ;; Compatibility: (Test on GNU Emacs 23.2.1).
