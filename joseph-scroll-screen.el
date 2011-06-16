@@ -53,7 +53,7 @@
 ;;  (autoload 'joseph-scroll-half-screen-up "joseph-scroll-screen" "scroll half screen up" t)
 ;;  (global-set-key "\C-v" 'joseph-scroll-half-screen-down)
 ;;  (global-set-key "\M-v" 'joseph-scroll-half-screen-up)
-;;   
+;;
 
 ;;}}}
 ;;{{{ Commands and Customizable Options
@@ -63,6 +63,10 @@
 ;;
 ;; Below are complete command list:
 ;;
+;;  `joseph-scroll-half-screen-down'
+;;    scroll half screen down
+;;  `joseph-scroll-half-screen-up'
+;;    scroll half screen up
 ;;
 ;;; Customizable Options:
 ;;
@@ -112,7 +116,8 @@
       (overlay-put ov 'face 'joseph-scroll-highlight-line-face)
       (sit-for joseph-scroll-highlight-delay)
       (delete-overlay ov))))
-(defvar joseph-scroll-screen-previous-point(nil )
+
+(defvar joseph-scroll-screen-previous-point nil)
 
 ;;{{{ scroll up down
 ;;;###autoload'
