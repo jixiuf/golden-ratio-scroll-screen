@@ -112,28 +112,34 @@
       (overlay-put ov 'face 'joseph-scroll-highlight-line-face)
       (sit-for joseph-scroll-highlight-delay)
       (delete-overlay ov))))
+(defvar joseph-scroll-screen-previous-point(nil )
 
-;;{{{ scroll up down 
+;;{{{ scroll up down
 ;;;###autoload'
 (defun joseph-scroll-half-screen-down()
   "scroll half screen down"
   (interactive)
-  (let ((b (point-at-bol) )(e (1+ (point-at-eol)) ))
-  (forward-line  (round (/ (frame-height) 1.5) ))
-  (recenter joseph-scroll-screen-line-num);;keep point on this line.
-;;  (joseph-scroll-highlight b e)
-  (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
-  ))
+  (let ((old-position joseph-scroll-screen-previous-point))
+    (setq joseph-scroll-screen-previous-point (point-marker))
+    (if (equal last-command 'joseph-scroll-half-screen-up)
+        (goto-char (marker-position old-position))
+      (forward-line  (round (/ (frame-height) 1.5) ))
+      )
+    (recenter joseph-scroll-screen-line-num);;keep point on this line.
+    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
+    ))
 
 (defun joseph-scroll-half-screen-up()
   "scroll half screen up"
   (interactive)
-  (let ((b (point-at-bol) )(e (1+ (point-at-eol)) ))
-  (forward-line (- 0 (round (/(frame-height) 1.5))))
-  (recenter joseph-scroll-screen-line-num)
-;;  (joseph-scroll-highlight b e)
-  (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
-  ))
+  (let ((old-position joseph-scroll-screen-previous-point))
+    (setq joseph-scroll-screen-previous-point (point-marker))
+    (if (equal last-command 'joseph-scroll-half-screen-down)
+        (goto-char (marker-position old-position))
+      (forward-line (- 0 (round (/(frame-height) 1.5)))))
+    (recenter joseph-scroll-screen-line-num)
+    (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol)))
+    ))
 
 ;;}}}
 
