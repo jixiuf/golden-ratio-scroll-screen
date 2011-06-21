@@ -129,7 +129,7 @@
       (sit-for joseph-scroll-highlight-delay)
       (delete-overlay ov))))
 
-(defvar joseph-scroll-screen-previous-point nil)
+(defvar joseph-scroll-screen-previous-point  (point-marker))
 ;;{{{ scroll up down
 ;;;###autoload'
 (defun joseph-scroll-half-screen-down()
