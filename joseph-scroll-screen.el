@@ -104,12 +104,6 @@
   :group 'scroll-
   :type 'number)
 
-(defface scroll-highlight-line-face
-  '((t (:foreground "white" :background "cadetblue4" :bold t)))
-  "Font Lock mode face used to highlight tags.
-  (borrowed from etags-select.el)"
-  :group 'scroll-screen)
-
 (defface joseph-scroll-highlight-line-face
   '((t (:foreground "white" :background "cadetblue4" :bold t)))
   "Font Lock mode face used to highlight tags.
