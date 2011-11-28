@@ -87,6 +87,17 @@
 
 ;;}}}
 ;;; Codes
+
+;; (require 'dired)
+
+(declare-function dired-previous-line "dired")
+(declare-function dired-next-line "dired")
+
+(defgroup scroll-screen nil
+  "scroll screen half down or up."
+  :prefix "scroll-screen"
+  :group 'scrolling)
+
 (defcustom  joseph-scroll-half-screen-up-hook nil
   ""
   :type 'hook)
@@ -101,7 +112,7 @@
 (defcustom joseph-scroll-highlight-delay 0.3
   "*How long to highlight the tag.
   (borrowed from etags-select.el)"
-  :group 'scroll-
+  :group 'scroll-screen
   :type 'number)
 
 (defface joseph-scroll-highlight-line-face
