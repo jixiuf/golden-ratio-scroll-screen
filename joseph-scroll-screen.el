@@ -167,6 +167,8 @@
     (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
   (run-hooks 'joseph-scroll-half-screen-up-hook))
 
+(put 'joseph-scroll-half-screen-up 'scroll-command t)
+(put 'joseph-scroll-half-screen-down 'scroll-command t)
 
 (provide 'joseph-scroll-screen)
 ;; joseph-scroll-screen.el ends here
