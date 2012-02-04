@@ -130,7 +130,7 @@
 
 (defvar joseph-scroll-screen-previous-point  (point-marker))
 
-;;;###autoload'
+;;;###autoload
 (defun joseph-scroll-half-screen-down()
   "scroll half screen down"
   (interactive)
@@ -149,7 +149,7 @@
     (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
   (run-hooks 'joseph-scroll-half-screen-down-hook))
 
-;;;###autoload'
+;;;###autoload
 (defun joseph-scroll-half-screen-up()
   "scroll half screen up"
   (interactive)
