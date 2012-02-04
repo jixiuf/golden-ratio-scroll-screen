@@ -13,7 +13,7 @@
 ;;
 ;;; This file is NOT part of GNU Emacs
 ;;
-;;{{{ License
+;; License
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,8 +29,6 @@
 ;; along with this program; see the file COPYING.  If not, write to
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
-;;}}}
-;;{{{ Commentary
 
 ;;; Commentary:
 
@@ -55,8 +53,6 @@
 ;;  (global-set-key "\M-v" 'joseph-scroll-half-screen-up)
 ;;
 
-;;}}}
-;;{{{ Commands and Customizable Options
 
 ;;
 ;;; Commands:
@@ -85,7 +81,6 @@
 ;;    *How long to highlight the tag.
 ;;    default = 0.3
 
-;;}}}
 ;;; Codes
 
 ;; (require 'dired)
@@ -135,7 +130,7 @@
       (delete-overlay ov))))
 
 (defvar joseph-scroll-screen-previous-point  (point-marker))
-;;{{{ scroll up down
+
 ;;;###autoload'
 (defun joseph-scroll-half-screen-down()
   "scroll half screen down"
@@ -155,6 +150,7 @@
     (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
   (run-hooks 'joseph-scroll-half-screen-down-hook))
 
+;;;###autoload'
 (defun joseph-scroll-half-screen-up()
   "scroll half screen up"
   (interactive)
@@ -171,7 +167,6 @@
     (joseph-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
   (run-hooks 'joseph-scroll-half-screen-up-hook))
 
-;;}}}
 
 (provide 'joseph-scroll-screen)
 ;; joseph-scroll-screen.el ends here
