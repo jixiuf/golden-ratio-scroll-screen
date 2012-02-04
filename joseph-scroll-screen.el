@@ -3,11 +3,10 @@
 ;; Filename: joseph-scroll-screen.el
 ;; Description: Scroll half screen down or up, and highlight current line
 ;; Author: Joseph <jixiuf@gmail.com>
-;; Maintainer: Joseph <jixiuf@gmail.com>
 ;; Copyright (C) 2011~, Joseph, all rights reserved.
 ;; Created: 2011-03-01
 ;; Version: 0.1.2
-;; URL: http://www.emacswiki.org/joseph-scroll-screen.el
+;; URL: http://www.emacswiki.org/emacs/download/joseph-scroll-screen.el
 ;; Keywords: scroll screen
 ;; Compatibility: (Test on GNU Emacs 23.2.1).
 ;;
