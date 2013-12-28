@@ -64,14 +64,6 @@
   "scroll screen half down or up."
   :prefix "gold-ratio-scroll-screen"
   :group 'scrolling)
-
-(defcustom gold-ratio-scroll-screen-up-hook nil
-  ""
-  :type 'hook)
-(defcustom gold-ratio-scroll-screen-down-hook nil
-  ""
-  :type 'hook)
-
 (defcustom gold-ratio-scroll-recenter t
   "recenter or not after scroll"
   :group 'gold-ratio-scroll-screen
@@ -90,11 +82,18 @@
                  (const :tag "highlight line after scroll" 'after)
                  (const :tag "highlight line after scroll" 'both)))
 
-(defcustom gold-ratio-scroll-highlight-delay 0.15
-  "*How long to highlight the line.
+(defcustom gold-ratio-scroll-highlight-delay (cons 0.15 0.1)
+  "*How long to highlight the line .
  (borrowed from etags-select.el)"
   :group 'gold-ratio-scroll-screen
   :type 'number)
+
+(defcustom gold-ratio-scroll-screen-up-hook nil
+  ""
+  :type 'hook)
+(defcustom gold-ratio-scroll-screen-down-hook nil
+  ""
+  :type 'hook)
 
 (defface gold-ratio-scroll-highlight-line-face
   '((t (:background "cadetblue4" :foreground "white" :weight bold)))
@@ -102,18 +101,18 @@
  (borrowed from etags-select.el)"
   :group 'gold-ratio-scroll-screen)
 
-(defun gold-ratio-scroll-highlight (beg end)
+(defun gold-ratio-scroll-highlight (beg end delay)
   "Highlight a region temporarily.
   (borrowed from etags-select.el)"
   (if (featurep 'xemacs)
       (let ((extent (make-extent beg end)))
         (set-extent-property extent 'face
                              'gold-ratio-scroll-highlight-line-face)
-        (sit-for gold-ratio-scroll-highlight-delay)
+        (sit-for delay)
         (delete-extent extent))
     (let ((ov (make-overlay beg end)))
       (overlay-put ov 'face 'gold-ratio-scroll-highlight-line-face)
-      (sit-for gold-ratio-scroll-highlight-delay)
+      (sit-for delay)
       (delete-overlay ov))))
 
 (defvar gold-ratio-scroll-screen-previous-point (point-marker))
@@ -138,9 +137,13 @@
     (when gold-ratio-scroll-recenter
       (recenter (+ scroll-line-cnt (/ (- (frame-height) scroll-line-cnt) 2))))
     (when (member gold-ratio-scroll-highlight-flag '(before both))
-      (gold-ratio-scroll-highlight bol-before-jump eol-before-jump))
+      (gold-ratio-scroll-highlight
+       bol-before-jump eol-before-jump
+       (car gold-ratio-scroll-highlight-delay)))
     (when (member gold-ratio-scroll-highlight-flag '(after both))
-      (gold-ratio-scroll-highlight (point-at-bol)(1+ (point-at-eol))))
+      (gold-ratio-scroll-highlight
+       (point-at-bol) (1+ (point-at-eol))
+       (cdr gold-ratio-scroll-highlight-delay)))
     (run-hooks 'gold-ratio-scroll-screen-down-hook)))
 
 ;;;###autoload
@@ -163,9 +166,13 @@
     (when gold-ratio-scroll-recenter
       (recenter (/ (- (frame-height) scroll-line-cnt) 2)))
     (when (member gold-ratio-scroll-highlight-flag '(before both))
-      (gold-ratio-scroll-highlight bol-before-jump eol-before-jump))
+      (gold-ratio-scroll-highlight
+       bol-before-jump eol-before-jump
+       (car gold-ratio-scroll-highlight-delay)))
     (when (member gold-ratio-scroll-highlight-flag '(after both))
-      (gold-ratio-scroll-highlight (point-at-bol)(1+ (point-at-eol)))))
+      (gold-ratio-scroll-highlight
+       (point-at-bol) (1+ (point-at-eol))
+       (cdr gold-ratio-scroll-highlight-delay))))
   (run-hooks 'gold-ratio-scroll-screen-up-hook))
 
 (put 'gold-ratio-scroll-screen-up 'scroll-command t)
