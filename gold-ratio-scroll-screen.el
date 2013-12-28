@@ -60,9 +60,9 @@
 (autoload 'dired-previous-line "dired")
 (autoload 'dired-next-line "dired")
 
-(defgroup scroll-screen nil
+(defgroup gold-ratio-scroll-screen nil
   "scroll screen half down or up."
-  :prefix "scroll-screen"
+  :prefix "gold-ratio-scroll-screen"
   :group 'scrolling)
 
 (defcustom gold-ratio-scroll-screen-up-hook nil
@@ -74,17 +74,17 @@
 
 (defcustom gold-ratio-scroll-recenter t
   "recenter or not after scroll"
-  :group 'scroll-screen
+  :group 'gold-ratio-scroll-screen
   :type 'boolean)
 
 (defcustom gold-ratio-scroll-screen-ratio 1.618
   "forward or backward (frame-height)/this-value lines "
-  :group 'scroll-screen
+  :group 'gold-ratio-scroll-screen
   :type 'number)
 
 (defcustom gold-ratio-scroll-highlight-flag 'both
   "highlight or not before or after scroll"
-  :group 'scroll-screen
+  :group 'gold-ratio-scroll-screen
   :type '(choice (const :tag "do not highlight" nil)
                  (const :tag "highlight line before scroll" 'before)
                  (const :tag "highlight line after scroll" 'after)
@@ -93,14 +93,14 @@
 (defcustom gold-ratio-scroll-highlight-delay 0.15
   "*How long to highlight the line.
  (borrowed from etags-select.el)"
-  :group 'scroll-screen
+  :group 'gold-ratio-scroll-screen
   :type 'number)
 
 (defface gold-ratio-scroll-highlight-line-face
   '((t (:background "cadetblue4" :foreground "white" :weight bold)))
   "Font Lock mode face used to highlight line.
  (borrowed from etags-select.el)"
-  :group 'scroll-screen)
+  :group 'gold-ratio-scroll-screen)
 
 (defun gold-ratio-scroll-highlight (beg end)
   "Highlight a region temporarily.
@@ -122,20 +122,20 @@
 (defun gold-ratio-scroll-screen-down()
   "scroll half screen down"
   (interactive)
-  (let ((old-position gold-ratio-scroll-screen-previous-point)
+  (let ((old-marker gold-ratio-scroll-screen-previous-point)
         (bol-before-jump (point-at-bol))
         (eol-before-jump (1+ (point-at-eol)))
         (scroll-line-cnt (round (/ (frame-height) gold-ratio-scroll-screen-ratio))))
     (setq gold-ratio-scroll-screen-previous-point (point-marker))
-    (if (and (not (equal (marker-position old-position) (point)))
+    (if (and (not (and (equal (current-buffer) (marker-buffer old-marker))
+                       (equal (marker-position old-marker) (point))))
              (equal last-command 'gold-ratio-scroll-screen-up))
-        (goto-char (marker-position old-position))
+        (goto-char (marker-position old-marker))
       (forward-visible-line scroll-line-cnt))
     (when (and (member major-mode '(dired-mode wdired-mode))
                (equal (point-max) (point)))
       (dired-previous-line 1))
     (when gold-ratio-scroll-recenter
-      ;;keep point on this line.
       (recenter (+ scroll-line-cnt (/ (- (frame-height) scroll-line-cnt) 2))))
     (when (member gold-ratio-scroll-highlight-flag '(before both))
       (gold-ratio-scroll-highlight bol-before-jump eol-before-jump))
@@ -147,14 +147,15 @@
 (defun gold-ratio-scroll-screen-up()
   "scroll half screen up"
   (interactive)
-  (let ((old-position gold-ratio-scroll-screen-previous-point)
+  (let ((old-marker gold-ratio-scroll-screen-previous-point)
         (bol-before-jump (point-at-bol))
         (eol-before-jump (1+ (point-at-eol)))
         (scroll-line-cnt (round (/ (frame-height) gold-ratio-scroll-screen-ratio))))
     (setq gold-ratio-scroll-screen-previous-point (point-marker))
-    (if (and (not (equal (marker-position old-position) (point)))
-             (equal last-command 'gold-ratio-scroll-screen-down))
-        (goto-char (marker-position old-position))
+    (if (and  (not (and (equal (current-buffer) (marker-buffer old-marker))
+                        (equal (marker-position old-marker) (point))))
+              (equal last-command 'gold-ratio-scroll-screen-down))
+        (goto-char (marker-position old-marker))
       (forward-visible-line (- 0 scroll-line-cnt)))
     (when (and (member major-mode '(dired-mode wdired-mode))
                (equal (point-min) (point)))
