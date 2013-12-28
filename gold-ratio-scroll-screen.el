@@ -77,10 +77,11 @@
 (defcustom gold-ratio-scroll-highlight-flag 'both
   "highlight or not before or after scroll"
   :group 'gold-ratio-scroll-screen
-  :type '(choice (const :tag "do not highlight" nil)
-                 (const :tag "highlight line before scroll" 'before)
-                 (const :tag "highlight line after scroll" 'after)
-                 (const :tag "highlight line after scroll" 'both)))
+  :type '(choice
+          (const :tag "do not highlight" nil)
+          (const :tag "highlight line before scroll" 'before)
+          (const :tag "highlight line after scroll" 'after)
+          (const :tag "highlight line both before or after scroll" 'both)))
 
 (defcustom gold-ratio-scroll-highlight-delay (cons 0.15 0.1)
   "*How long to highlight the line .
