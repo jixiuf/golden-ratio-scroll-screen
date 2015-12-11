@@ -1,12 +1,10 @@
-;;; gold-ratio-scroll-screen.el -- Scroll half screen down or up, and highlight current line.
+;;; golden-ratio-scroll-screen.el -- Scroll half screen down or up, and highlight current line
 
-;; Filename: gold-ratio-scroll-screen.el
-;; Description: Scroll half screen down or up, and highlight current line
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
-;; Copyright (C) 2011~2013,纪秀峰 , all rights reserved.
+;; Copyright (C) 2011~2015,纪秀峰 , all rights reserved.
 ;; Created: 2011-03-01
-;; Version: 0.2
-;; X-URL: git://github.com/jixiuf/gold-ratio-scroll-screen.git
+;; Version: 0.3
+;; X-URL: git://github.com/jixiuf/golden-ratio-scroll-screen.git
 ;; Keywords: scroll screen
 ;;
 ;;; This file is NOT part of GNU Emacs
@@ -32,23 +30,23 @@
 
 ;;; Install:
 ;;
-;; Just put gold-ratio-scroll-screen.el to your load-path.
+;; Just put golden-ratio-scroll-screen.el to your load-path.
 ;; The load-path is usually ~/elisp/.
 ;; It's set in your ~/.emacs like this:
 ;; (add-to-list 'load-path (expand-file-name "~/elisp"))
 ;;
 ;; And the following to your ~/.emacs startup file.
 ;;
-;; (require 'gold-ratio-scroll-screen)
-;; (global-set-key "\C-v" 'gold-ratio-scroll-screen-down)
-;; (global-set-key "\M-v" 'gold-ratio-scroll-screen-up)
+;; (require 'golden-ratio-scroll-screen)
+;; (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+;; (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 ;;
 ;; or:
 ;;
-;; (autoload 'gold-ratio-scroll-screen-down "gold-ratio-scroll-screen" "scroll half screen down" t)
-;; (autoload 'gold-ratio-scroll-screen-up "gold-ratio-scroll-screen" "scroll half screen up" t)
-;; (global-set-key "\C-v" 'gold-ratio-scroll-screen-down)
-;; (global-set-key "\M-v" 'gold-ratio-scroll-screen-up)
+;; (autoload 'golden-ratio-scroll-screen-down "golden-ratio-scroll-screen" "scroll half screen down" t)
+;; (autoload 'golden-ratio-scroll-screen-up "golden-ratio-scroll-screen" "scroll half screen up" t)
+;; (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+;; (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 ;;
 
 ;;; Codes
@@ -60,124 +58,127 @@
 (autoload 'dired-previous-line "dired")
 (autoload 'dired-next-line "dired")
 
-(defgroup gold-ratio-scroll-screen nil
+(defgroup golden-ratio-scroll-screen nil
   "scroll screen half down or up."
-  :prefix "gold-ratio-scroll-screen"
+  :prefix "golden-ratio-scroll-screen"
   :group 'scrolling)
-(defcustom gold-ratio-scroll-recenter t
+(defcustom golden-ratio-scroll-recenter t
   "recenter or not after scroll"
-  :group 'gold-ratio-scroll-screen
+  :group 'golden-ratio-scroll-screen
   :type 'boolean)
 
-(defcustom gold-ratio-scroll-screen-ratio 1.618
+(defcustom golden-ratio-scroll-screen-ratio 1.618
   "forward or backward (window-text-height)/this-value lines "
-  :group 'gold-ratio-scroll-screen
+  :group 'golden-ratio-scroll-screen
   :type 'number)
 
-(defcustom gold-ratio-scroll-highlight-flag 'both
+(defcustom golden-ratio-scroll-highlight-flag 'both
   "highlight or not before or after scroll"
-  :group 'gold-ratio-scroll-screen
+  :group 'golden-ratio-scroll-screen
   :type '(choice
           (const :tag "do not highlight" nil)
           (const :tag "highlight line before scroll" 'before)
           (const :tag "highlight line after scroll" 'after)
           (const :tag "highlight line both before or after scroll" 'both)))
 
-(defcustom gold-ratio-scroll-highlight-delay (cons 0.15 0.1)
+(defcustom golden-ratio-scroll-highlight-delay (cons 0.15 0.1)
   "*How long to highlight the line .
  (borrowed from etags-select.el)"
-  :group 'gold-ratio-scroll-screen
+  :group 'golden-ratio-scroll-screen
   :type 'number)
 
-(defcustom gold-ratio-scroll-screen-up-hook nil
+(defcustom golden-ratio-scroll-screen-up-hook nil
   ""
   :type 'hook)
-(defcustom gold-ratio-scroll-screen-down-hook nil
+(defcustom golden-ratio-scroll-screen-down-hook nil
   ""
   :type 'hook)
 
-(defface gold-ratio-scroll-highlight-line-face
+(defface golden-ratio-scroll-highlight-line-face
   '((t (:background "cadetblue4" :foreground "white" :weight bold)))
   "Font Lock mode face used to highlight line.
  (borrowed from etags-select.el)"
-  :group 'gold-ratio-scroll-screen)
+  :group 'golden-ratio-scroll-screen)
 
-(defun gold-ratio-scroll-highlight (beg end delay)
+(defun golden-ratio-scroll-highlight (beg end delay)
   "Highlight a region temporarily.
   (borrowed from etags-select.el)"
   (if (featurep 'xemacs)
       (let ((extent (make-extent beg end)))
         (set-extent-property extent 'face
-                             'gold-ratio-scroll-highlight-line-face)
+                             'golden-ratio-scroll-highlight-line-face)
         (sit-for delay)
         (delete-extent extent))
     (let ((ov (make-overlay beg end)))
-      (overlay-put ov 'face 'gold-ratio-scroll-highlight-line-face)
+      (overlay-put ov 'face 'golden-ratio-scroll-highlight-line-face)
       (sit-for delay)
       (delete-overlay ov))))
 
-(defvar gold-ratio-scroll-screen-previous-point (point-marker))
+(defvar golden-ratio-scroll-screen-previous-point (point-marker))
 
 ;;;###autoload
-(defun gold-ratio-scroll-screen-down()
-  "scroll half screen down"
+(defun golden-ratio-scroll-screen-up()
+  "scroll half screen up"
   (interactive)
-  (let ((old-marker gold-ratio-scroll-screen-previous-point)
+  (let ((old-marker golden-ratio-scroll-screen-previous-point)
         (bol-before-jump (point-at-bol))
         (eol-before-jump (1+ (point-at-eol)))
-        (scroll-line-cnt (round (/ (window-text-height) gold-ratio-scroll-screen-ratio))))
-    (setq gold-ratio-scroll-screen-previous-point (point-marker))
+        (scroll-line-cnt (round (/ (window-text-height)
+                                   golden-ratio-scroll-screen-ratio))))
+    (setq golden-ratio-scroll-screen-previous-point (point-marker))
     (if (and (not (and (equal (current-buffer) (marker-buffer old-marker))
                        (equal (marker-position old-marker) (point))))
-             (equal last-command 'gold-ratio-scroll-screen-up))
+             (equal last-command 'golden-ratio-scroll-screen-down))
         (goto-char (marker-position old-marker))
       (forward-visible-line scroll-line-cnt))
     (when (and (member major-mode '(dired-mode wdired-mode))
                (equal (point-max) (point)))
       (dired-previous-line 1))
-    (when gold-ratio-scroll-recenter
+    (when golden-ratio-scroll-recenter
       (recenter (+ scroll-line-cnt (/ (- (window-text-height) scroll-line-cnt) 2))))
-    (when (member gold-ratio-scroll-highlight-flag '(before both))
-      (gold-ratio-scroll-highlight
+    (when (member golden-ratio-scroll-highlight-flag '(before both))
+      (golden-ratio-scroll-highlight
        bol-before-jump eol-before-jump
-       (car gold-ratio-scroll-highlight-delay)))
-    (when (member gold-ratio-scroll-highlight-flag '(after both))
-      (gold-ratio-scroll-highlight
+       (car golden-ratio-scroll-highlight-delay)))
+    (when (member golden-ratio-scroll-highlight-flag '(after both))
+      (golden-ratio-scroll-highlight
        (point-at-bol) (1+ (point-at-eol))
-       (cdr gold-ratio-scroll-highlight-delay)))
-    (run-hooks 'gold-ratio-scroll-screen-down-hook)))
+       (cdr golden-ratio-scroll-highlight-delay)))
+    (run-hooks 'golden-ratio-scroll-screen-down-hook)))
 
 ;;;###autoload
-(defun gold-ratio-scroll-screen-up()
-  "scroll half screen up"
+(defun golden-ratio-scroll-screen-down()
+  "scroll half screen down"
   (interactive)
-  (let ((old-marker gold-ratio-scroll-screen-previous-point)
+  (let ((old-marker golden-ratio-scroll-screen-previous-point)
         (bol-before-jump (point-at-bol))
         (eol-before-jump (1+ (point-at-eol)))
-        (scroll-line-cnt (round (/ (window-text-height) gold-ratio-scroll-screen-ratio))))
-    (setq gold-ratio-scroll-screen-previous-point (point-marker))
+        (scroll-line-cnt (round (/ (window-text-height)
+                                   golden-ratio-scroll-screen-ratio))))
+    (setq golden-ratio-scroll-screen-previous-point (point-marker))
     (if (and  (not (and (equal (current-buffer) (marker-buffer old-marker))
                         (equal (marker-position old-marker) (point))))
-              (equal last-command 'gold-ratio-scroll-screen-down))
+              (equal last-command 'golden-ratio-scroll-screen-up))
         (goto-char (marker-position old-marker))
       (forward-visible-line (- 0 scroll-line-cnt)))
     (when (and (member major-mode '(dired-mode wdired-mode))
                (equal (point-min) (point)))
       (dired-next-line 2))
-    (when gold-ratio-scroll-recenter
+    (when golden-ratio-scroll-recenter
       (recenter (/ (- (window-text-height) scroll-line-cnt) 2)))
-    (when (member gold-ratio-scroll-highlight-flag '(before both))
-      (gold-ratio-scroll-highlight
+    (when (member golden-ratio-scroll-highlight-flag '(before both))
+      (golden-ratio-scroll-highlight
        bol-before-jump eol-before-jump
-       (car gold-ratio-scroll-highlight-delay)))
-    (when (member gold-ratio-scroll-highlight-flag '(after both))
-      (gold-ratio-scroll-highlight
+       (car golden-ratio-scroll-highlight-delay)))
+    (when (member golden-ratio-scroll-highlight-flag '(after both))
+      (golden-ratio-scroll-highlight
        (point-at-bol) (1+ (point-at-eol))
-       (cdr gold-ratio-scroll-highlight-delay))))
-  (run-hooks 'gold-ratio-scroll-screen-up-hook))
+       (cdr golden-ratio-scroll-highlight-delay))))
+  (run-hooks 'golden-ratio-scroll-screen-up-hook))
 
-(put 'gold-ratio-scroll-screen-up 'scroll-command t)
-(put 'gold-ratio-scroll-screen-down 'scroll-command t)
+(put 'golden-ratio-scroll-screen-up 'scroll-command t)
+(put 'golden-ratio-scroll-screen-down 'scroll-command t)
 
-(provide 'gold-ratio-scroll-screen)
-;; gold-ratio-scroll-screen.el ends here
+(provide 'golden-ratio-scroll-screen)
+
+;;; golden-ratio-scroll-screen.el ends here
