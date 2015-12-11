@@ -1,13 +1,13 @@
-;;; golden-ratio-scroll-screen.el -- Scroll half screen down or up, and highlight current line
+;;; golden-ratio-scroll-screen.el --- Scroll half screen down or up, and highlight current line
 
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
 ;; Copyright (C) 2011~2015,纪秀峰 , all rights reserved.
 ;; Created: 2011-03-01
-;; Version: 0.3
-;; X-URL: git://github.com/jixiuf/golden-ratio-scroll-screen.git
-;; Keywords: scroll screen
+;; Version: 1.0
+;; URL:   https://github.com/jixiuf/golden-ratio-scroll-screen
+;; Keywords: scroll screen highlight
 ;;
-;;; This file is NOT part of GNU Emacs
+;; This file is NOT part of GNU Emacs
 ;;
 ;; License
 ;;
@@ -27,6 +27,9 @@
 ;; Floor, Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
+
+;; Scroll half screen down or up, and highlight current line before
+;; or after scrolling
 
 ;;; Install:
 ;;
@@ -79,11 +82,10 @@
           (const :tag "do not highlight" nil)
           (const :tag "highlight line before scroll" 'before)
           (const :tag "highlight line after scroll" 'after)
-          (const :tag "highlight line both before or after scroll" 'both)))
+          (const :tag "highlight line both before and after scroll" 'both)))
 
 (defcustom golden-ratio-scroll-highlight-delay (cons 0.15 0.1)
-  "*How long to highlight the line .
- (borrowed from etags-select.el)"
+  "*How long to highlight the line ."
   :group 'golden-ratio-scroll-screen
   :type 'number)
 
