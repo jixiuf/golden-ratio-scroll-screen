@@ -11,6 +11,8 @@ Getting started
 
 The easiest way to get started is to install the package via [MELPA][melpa]:
 
+ [melpa]: http://melpa.org/
+
 ```elisp
 (package-install 'golden-ratio-scroll-screen)
 ```
