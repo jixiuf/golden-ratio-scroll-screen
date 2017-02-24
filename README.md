@@ -25,6 +25,10 @@ file:
 (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
 (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 ```
+Screenshot
+---------
+
+![Screenshot](https://github.com/jixiuf/golden-ratio-scroll-screen/raw/master/golden-ratio-scroll-screen.gif)
 
 Copyright & License
 ------------------------
