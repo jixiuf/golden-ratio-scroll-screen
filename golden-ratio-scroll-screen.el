@@ -3,7 +3,7 @@
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
 ;; Copyright (C) 2011~2015,纪秀峰 , all rights reserved.
 ;; Created: 2011-03-01
-;; Version: 1.0
+;; Version: 1.1
 ;; URL:   https://github.com/jixiuf/golden-ratio-scroll-screen
 ;; Keywords: scroll screen highlight
 ;;
@@ -28,16 +28,10 @@
 
 ;;; Commentary:
 
-;; Scroll half screen down or up, and highlight current line before
+;; Scroll screen down or up, and highlight current line before
 ;; or after scrolling
+;; the lines it scrolling is screen_height*0.618
 
-;;; Install:
-;;
-;; Just put golden-ratio-scroll-screen.el to your load-path.
-;; The load-path is usually ~/elisp/.
-;; It's set in your ~/.emacs like this:
-;; (add-to-list 'load-path (expand-file-name "~/elisp"))
-;;
 ;; And the following to your ~/.emacs startup file.
 ;;
 ;; (require 'golden-ratio-scroll-screen)
