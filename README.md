@@ -3,8 +3,9 @@ golden-ratio-scroll-screen
 
 [![MELPA](http://melpa.org/packages/golden-ratio-scroll-screen-badge.svg)](http://melpa.org/#/golden-ratio-scroll-screen)
 
-Scroll half screen down or up, and highlight current line before or after
-scrolling.
+Scroll screen down or up, and highlight current line before or after scrolling. 
+
+the lines it scrolling is screen_height*0.618.
 
 Getting started
 ------------
