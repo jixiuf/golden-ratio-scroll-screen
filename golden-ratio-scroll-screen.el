@@ -116,7 +116,7 @@
 (defvar golden-ratio-scroll-screen-previous-point (point-marker))
 
 ;;;###autoload
-(defun golden-ratio-scroll-screen-up()
+(defun golden-ratio-scroll-screen-up(&optional arg)
   "scroll half screen up"
   (interactive)
   (let ((old-marker golden-ratio-scroll-screen-previous-point)
@@ -146,7 +146,7 @@
     (run-hooks 'golden-ratio-scroll-screen-down-hook)))
 
 ;;;###autoload
-(defun golden-ratio-scroll-screen-down()
+(defun golden-ratio-scroll-screen-down(&optional arg)
   "scroll half screen down"
   (interactive)
   (let ((old-marker golden-ratio-scroll-screen-previous-point)
