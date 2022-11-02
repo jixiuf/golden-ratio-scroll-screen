@@ -120,8 +120,8 @@
   "scroll half screen up"
   (interactive)
   (let ((old-marker golden-ratio-scroll-screen-previous-point)
-        (bol-before-jump (point-at-bol))
-        (eol-before-jump (1+ (point-at-eol)))
+        (bol-before-jump (line-beginning-position))
+        (eol-before-jump (1+ (line-end-position)))
         (scroll-line-cnt (round (/ (window-text-height)
                                    golden-ratio-scroll-screen-ratio))))
     (setq golden-ratio-scroll-screen-previous-point (point-marker))
@@ -141,7 +141,7 @@
        (car golden-ratio-scroll-highlight-delay)))
     (when (member golden-ratio-scroll-highlight-flag '(after both))
       (golden-ratio-scroll-highlight
-       (point-at-bol) (1+ (point-at-eol))
+       (line-beginning-position) (1+ (line-end-position))
        (cdr golden-ratio-scroll-highlight-delay)))
     (run-hooks 'golden-ratio-scroll-screen-down-hook)))
 
@@ -150,8 +150,8 @@
   "scroll half screen down"
   (interactive)
   (let ((old-marker golden-ratio-scroll-screen-previous-point)
-        (bol-before-jump (point-at-bol))
-        (eol-before-jump (1+ (point-at-eol)))
+        (bol-before-jump (line-beginning-position))
+        (eol-before-jump (1+ (line-end-position)))
         (scroll-line-cnt (round (/ (window-text-height)
                                    golden-ratio-scroll-screen-ratio))))
     (setq golden-ratio-scroll-screen-previous-point (point-marker))
@@ -171,7 +171,7 @@
        (car golden-ratio-scroll-highlight-delay)))
     (when (member golden-ratio-scroll-highlight-flag '(after both))
       (golden-ratio-scroll-highlight
-       (point-at-bol) (1+ (point-at-eol))
+       (line-beginning-position) (1+ (line-end-position))
        (cdr golden-ratio-scroll-highlight-delay))))
   (run-hooks 'golden-ratio-scroll-screen-up-hook))
 
