@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; golden-ratio-scroll-screen.el --- Scroll half screen down or up, and highlight current line
 
 ;; Author: 纪秀峰 <jixiuf at gmail dot com>
